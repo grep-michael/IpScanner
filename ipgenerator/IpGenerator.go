@@ -1,27 +1,40 @@
 package ipgenerator
 
-import (
-	"bytes"
-	"strconv"
-)
+import "fmt"
 
-type Ip struct {
-	bytes [4]int
+type Ipgenerator struct {
+	current_ip Ip
 }
 
-func (ip *Ip) AsString() string {
-	var buf bytes.Buffer
-	for i, v := range ip.bytes {
-		buf.WriteString(strconv.FormatInt(int64(v), 10))
-		if i >= 0 && i < len(ip.bytes)-1 {
-			buf.WriteString(".")
+func (gen *Ipgenerator) incrementIp() {
+	for i, v := range gen.current_ip.bytes[1:] {
+		if v == 255 {
+			gen.current_ip.bytes[i]++
+			gen.current_ip.bytes[i+1] = 0
+		}
+		if i == 2 {
+			gen.current_ip.bytes[3]++
 		}
 	}
-	return buf.String()
+}
+func (gen *Ipgenerator) NextIp() Ip {
+	gen.incrementIp()
+	return gen.current_ip
 }
 
-func (ip *Ip) SetBytes(b [4]int) {
-	for i, v := range b {
-		ip.bytes[i] = v
+func Main() {
+	gen := Ipgenerator{}
+	gen.current_ip.SetBytes([4]int{1, 1, 1, 255})
+	fmt.Println(gen.current_ip.AsString())
+
+	for i := 0; i < 256; i++ {
+		gen.incrementIp()
+		fmt.Println(gen.current_ip.AsString())
 	}
 }
+
+/*
+func (gen *Ipgenerator) NextIp() Ip {
+	curip = gen.current_ip
+
+}*/
