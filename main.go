@@ -12,7 +12,7 @@ func main() {
 	b := [...]int{1, 1, 1, 1}
 	ip.SetBytes(b)
 	fmt.Println(ip.AsString())
-	//
+
 	//ip genorator
 	gen := ipgenerator.NewIpGenerator()
 	fmt.Println(gen.NextIp())
