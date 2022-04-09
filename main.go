@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"michaelknudsen.com/ipscanner/ipgenerator"
+	"michaelknudsen.com/ipscanner/scanner"
 )
 
 func main() {
@@ -18,4 +19,5 @@ func main() {
 	fmt.Println(gen.NextIp())
 	fmt.Println(gen.NextIp())
 
+	scanner.Main()
 }

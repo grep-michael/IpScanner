@@ -1,6 +1,9 @@
 package ipgenerator
 
+import "sync"
+
 type ip_generator struct {
+	IpLock     sync.Mutex
 	current_ip Ip
 }
 
@@ -19,9 +22,3 @@ func (gen *ip_generator) NextIp() Ip {
 	gen.incrementIp()
 	return gen.current_ip
 }
-
-/*
-func (gen *Ipgenerator) NextIp() Ip {
-	curip = gen.current_ip
-
-}*/
