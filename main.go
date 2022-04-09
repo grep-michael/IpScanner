@@ -14,6 +14,8 @@ func main() {
 	fmt.Println(ip.AsString())
 
 	//ip genorator
-	ipgenerator.Main()
+	gen := ipgenerator.NewIpGenerator()
+	fmt.Println(gen.NextIp())
+	fmt.Println(gen.NextIp())
 
 }
