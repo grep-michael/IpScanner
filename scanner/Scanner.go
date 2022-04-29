@@ -9,20 +9,16 @@ import (
 	"michaelknudsen.com/ipscanner/ipgenerator"
 )
 
-type Scanner struct {
+type Server struct {
 	ip ipgenerator.Ip
 }
 
-type WebRequest struct {
-}
-
-func (sc *Scanner) formatIpIntoUrl() (string, string) {
+func (sc *Server) formatIpIntoUrl() (string, string) {
 	return "http://" + sc.ip.AsString(), "https://" + sc.ip.AsString()
 }
 
 func getFromProtocol(protocol string, ip string) string {
 	res, err := http.Get(protocol + ip)
-
 	if err != nil {
 		return err.Error()
 	} else {
@@ -37,22 +33,22 @@ func getFromProtocol(protocol string, ip string) string {
 	}
 }
 
-func (sc *Scanner) getHttpsResponse() string {
+func (sc *Server) testForHttps() string {
 	return getFromProtocol("https://", sc.ip.AsString())
 }
-func (sc *Scanner) getHttpResponse() string {
+func (sc *Server) testForHttp() string {
 	return getFromProtocol("http://", sc.ip.AsString())
 }
 
 func Main() {
-	scanner := Scanner{}
+	scanner := Server{}
 	scanner.ip.SetBytes([...]int{1, 1, 1, 1})
-	http_res := scanner.getHttpResponse()
+	http_res := scanner.testForHttp()
 	f, _ := os.Create("testPages/http_1.1.1.1.html")
 	f.Write([]byte(http_res))
 	f.Close()
 
-	http_res = scanner.getHttpsResponse()
+	http_res = scanner.testForHttps()
 	f, _ = os.Create("testPages/https_1.1.1.1.html")
 	f.Write([]byte(http_res))
 	f.Close()
